@@ -1,3 +1,6 @@
+type PathLike = `/${string}`;
+type DynamicRoute<T extends string> = (id: T) => PathLike;
+
 export const routes = {
   home: () => '/' as const,
   auth: {
@@ -15,6 +18,8 @@ export const routes = {
     root: () => '/portal' as const,
     jobs: {
       index: () => '/portal/jobs' as const,
+      add: () => '/portal/jobs/add' as const,
+      detail: ((id: string) => `/portal/jobs/${id}/detail`) as DynamicRoute<string>,
     },
   },
 } as const;
