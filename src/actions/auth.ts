@@ -19,7 +19,7 @@ export async function signInWithEmail(formData: FormData) {
   }
 
   revalidatePath('/', 'layout');
-  redirect(routes.admin.root());
+  redirect(routes.portal.root());
 }
 
 export async function signOut() {

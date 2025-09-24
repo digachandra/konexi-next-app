@@ -17,9 +17,9 @@ export async function loginWithEmailPassword(page: Page, credential: CredentialP
     await page.fill('input[name="password"]', credential.password);
   });
 
-  await test.step('submit and land on admin', async () => {
+  await test.step('submit and land on portal', async () => {
     await page.getByRole('button', { name: /login/i }).click();
-    await page.waitForURL('**/admin', { timeout: 5_000 });
-    await expect(page).toHaveURL(/\/admin$/);
+    await page.waitForURL('**/portal', { timeout: 5_000 });
+    await expect(page).toHaveURL(/\/portal$/);
   });
 }

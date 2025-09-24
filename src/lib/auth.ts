@@ -7,7 +7,7 @@ export async function requireNonAuth() {
 
   const { data } = await supabase.auth.getUser();
   if (data?.user) {
-    return redirect(routes.admin.root());
+    return redirect(routes.portal.root());
   }
 
   return null;
