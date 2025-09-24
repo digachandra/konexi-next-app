@@ -13,5 +13,8 @@ export const routes = {
   },
   portal: {
     root: () => '/portal' as const,
+    jobs: {
+      index: () => '/portal/jobs' as const,
+    },
   },
 } as const;
