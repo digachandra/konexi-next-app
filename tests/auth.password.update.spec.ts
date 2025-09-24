@@ -75,12 +75,12 @@ test.describe('password updated page', () => {
       await deleteUser({ email });
     });
 
-    test('redirects to admin', async ({ page }) => {
+    test('redirects to portal', async ({ page }) => {
       await loginWithEmailPassword(page, { email, password });
 
       await page.goto('/auth/password/updated');
 
-      await expect(page).toHaveURL(/\/admin/);
+      await expect(page).toHaveURL(/\/portal/);
     });
   });
 });

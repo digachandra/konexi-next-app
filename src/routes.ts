@@ -11,7 +11,7 @@ export const routes = {
       updated: () => '/auth/password/updated' as const,
     },
   },
-  admin: {
-    root: () => '/admin' as const,
+  portal: {
+    root: () => '/portal' as const,
   },
 } as const;
