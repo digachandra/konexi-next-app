@@ -4,6 +4,7 @@ import { getJob } from '@/actions/job';
 import { JobProvider } from '@/contexts/job';
 import { Header } from '@portal/header';
 import { HeaderTitle } from '@portal/header/title';
+import { requireAuth } from '@/lib/auth';
 
 type LayoutProps = {
   children: ReactNode;
@@ -11,6 +12,7 @@ type LayoutProps = {
 };
 
 export default async function Layout({ children, params }: LayoutProps) {
+  await requireAuth();
   const { id } = await params;
   const { success, data } = await getJob(id);
 

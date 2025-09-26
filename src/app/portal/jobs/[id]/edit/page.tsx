@@ -9,7 +9,7 @@ import { type JobInput } from '@/schemas/job';
 import { getFormData } from '@/lib/form';
 import { Form } from '../../_components/form';
 
-export default function Page() {
+export default async function Page() {
   const job = useJob();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
