@@ -23,7 +23,7 @@ function SignedAccount({ email }: { email: string }) {
 function PublicAccount() {
   return (
     <SidebarSection as="actions" label="Account">
-      <SidebarAction href={routes.auth.login()} label="Sign In" icon={LogIn} />
+      <SidebarAction href={routes.auth.login()} label="Sign In / Sign Up" icon={LogIn} />
     </SidebarSection>
   );
 }
