@@ -3,7 +3,9 @@ import { routes } from '@/routes';
 import { Header } from '@portal/header';
 import { HeaderActions, HeaderActionAdd } from '@portal/header/actions';
 import { HeaderTitle } from '@portal/header/title';
+import { Separator } from '@/components/ui/separator';
 import { getSignedUser } from '@/lib/user';
+import { Filter } from './_components/filter';
 
 type LayoutProps = {
   children: ReactNode;
@@ -22,7 +24,11 @@ export default async function Layout({ children }: LayoutProps) {
           </HeaderActions>
         )}
       </Header>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{children}</div>
+      <div className="flex flex-col gap-4">
+        <Filter />
+        <Separator />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{children}</div>
+      </div>
     </>
   );
 }
