@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getJobs } from '@/actions/job';
-import { JobCard, JobCardSkeleton } from './_components/job-card';
+import { JobCard } from './_components/job-card';
 
 export default async function Page() {
   const { success, data } = await getJobs();
