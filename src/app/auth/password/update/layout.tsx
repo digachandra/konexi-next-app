@@ -1,6 +1,6 @@
 import Container from '@/components/container';
 import { Header } from '@/components/header';
-import { Panel } from '@/components/inputs/panel';
+import { Panel } from '@/components/panel';
 import { requireAuth } from '@/lib/auth';
 
 type LayoutProps = {
