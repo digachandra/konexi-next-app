@@ -56,6 +56,37 @@ test.describe('when user is authenticated', () => {
       await expect(page.getByText(job.location)).toBeVisible();
       await expect(page.getByText(job.type)).toBeVisible();
     });
+
+    const edited = {
+      title: `${faker.person.jobTitle()}-edited`,
+      company_name: `${faker.company.name()}-edited`,
+      description: `${faker.lorem.paragraph()}-edited`,
+      location: `${faker.location.city()}-edited`,
+      type: 'Part-Time',
+    };
+
+    await test.step('update job record', async () => {
+      await page.getByRole('button', { name: 'Edit Job' }).click();
+
+      await expect(page).toHaveURL(/\/portal\/jobs\/[0-9a-f-]+\/edit$/i);
+
+      await page.fill('input[name="title"]', edited.title);
+      await page.fill('input[name="company_name"]', edited.company_name);
+      await page.fill('textarea[name="description"]', edited.description);
+      await page.fill('input[name="location"]', edited.location);
+      await page.getByRole('combobox', { name: 'Job Type' }).click();
+      await page.getByRole('option', { name: edited.type }).click();
+
+      await page.getByRole('button', { name: 'Update Job' }).click();
+
+      await expect(page).toHaveURL(/\/portal\/jobs\/[0-9a-f-]+\/detail$/i);
+      await expect(page.getByRole('heading', { name: 'Job Detail' })).toBeVisible();
+      await expect(page.getByText(edited.title)).toBeVisible();
+      await expect(page.getByText(edited.company_name)).toBeVisible();
+      await expect(page.getByText(edited.description)).toBeVisible();
+      await expect(page.getByText(edited.location)).toBeVisible();
+      await expect(page.getByText(edited.type)).toBeVisible();
+    });
   });
 });
 
