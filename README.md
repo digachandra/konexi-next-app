@@ -11,7 +11,7 @@ Job boards explorer
 | Feature                 | Status | Test |
 | ----------------------- | ------ | ---- |
 | Authentication          |        |      |
-| -- Sign Up / Register   | ✅     | ❌   |
+| -- Sign Up / Register   | ✅     | ✅   |
 | -- Sign In              | ✅     | ✅   |
 | -- Forget Password      | ✅     | ✅   |
 | Job                     | ✅     | ✅   |
