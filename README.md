@@ -6,6 +6,12 @@ Job boards explorer
 
 [konexi-app.digachandra.com](https://konexi-app.digachandra.com/)
 
+```
+Dummy Credential:
+email: sample@digachandra.com
+password: password
+```
+
 ## Getting Started
 
 ### Local Development
