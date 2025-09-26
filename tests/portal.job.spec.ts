@@ -90,6 +90,23 @@ test.describe('when user is authenticated', () => {
       await expect(page.getByText(edited.type)).toBeVisible();
     });
 
+    await test.step('navigate to job detail from jobs board', async () => {
+      await page.getByRole('link', { name: 'Jobs' }).click();
+      await expect(page).toHaveURL(/\/portal\/jobs\/list/);
+
+      await expect(page.getByRole('heading', { name: 'Jobs Board' })).toBeVisible();
+      await expect(page.getByText('No jobs available')).not.toBeVisible();
+
+      await page
+        .locator('[data-slot="card"]')
+        .filter({ hasText: edited.title })
+        .getByRole('button', { name: 'See Job Detail' })
+        .click();
+
+      await expect(page).toHaveURL(/\/portal\/jobs\/[0-9a-f-]+\/detail$/i);
+      await expect(page.getByRole('heading', { name: 'Job Detail' })).toBeVisible();
+    });
+
     await test.step('delete job record', async () => {
       await page.getByRole('button', { name: 'Delete Job' }).click();
 
