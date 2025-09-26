@@ -63,6 +63,8 @@ npm run test:e2e:ui
 ### What would you improve if given more time?
 
 - [ ] Theming (Logo, favicon, color theme)
+- [ ] Improve CTA UX
+- [ ] More loading state to improve UX
 - [ ] Error flow testing
 - [ ] PWA
 
