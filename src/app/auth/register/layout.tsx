@@ -22,13 +22,15 @@ export default async function Layout({ children }: LayoutProps) {
     <Container className="flex max-w-lg flex-1 justify-center gap-8">
       <Card>
         <CardHeader className="text-center">
-          <CardTitle>Welcome back</CardTitle>
-          <CardDescription>Login with your username & password</CardDescription>
+          <CardTitle>Register Your Account</CardTitle>
+          <CardDescription>
+            Sign up with your email & password to create a new account
+          </CardDescription>
         </CardHeader>
         <CardContent>{children}</CardContent>
         <CardFooter className="justify-center">
-          <Link href={routes.auth.register()} className="text-muted-foreground underline">
-            or register your account
+          <Link href={routes.auth.login()} className="text-muted-foreground underline">
+            or back to login page
           </Link>
         </CardFooter>
       </Card>

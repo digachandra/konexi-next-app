@@ -7,11 +7,10 @@ import { routes } from '@/routes';
 import { AuthInputSchema, AuthInput } from '@/schemas/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Error } from '@/components/error';
 import { TextInput } from '@/components/inputs/text';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { LoginError } from './_components/login-error';
-import { LoginPanel } from './_components/login-panel';
 
 export default function Page() {
   const [error, setError] = useState<string | null>(null);
@@ -39,25 +38,23 @@ export default function Page() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <LoginPanel>
-          <TextInput control={form.control} type="email" name="email" label="Email" />
-          <TextInput
-            control={form.control}
-            type="password"
-            name="password"
-            label="Password"
-            labelAction={
-              <Link href={routes.auth.password.request()} className="text-sm">
-                Forgot your password?
-              </Link>
-            }
-          />
-          {error && <LoginError message={error} />}
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
-        </LoginPanel>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <TextInput control={form.control} type="email" name="email" label="Email" />
+        <TextInput
+          control={form.control}
+          type="password"
+          name="password"
+          label="Password"
+          labelAction={
+            <Link href={routes.auth.password.request()} className="text-sm">
+              Forgot your password?
+            </Link>
+          }
+        />
+        {error && <Error message={error} />}
+        <Button type="submit" className="w-full">
+          Login
+        </Button>
       </form>
     </Form>
   );
