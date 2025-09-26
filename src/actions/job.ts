@@ -1,6 +1,7 @@
 'use server';
 
 import { JobInputSchema, JobSchema, type Job } from '@/schemas/job';
+import { JobTypeEnum } from '@/schemas/job';
 import { createClient } from '@/lib/supabase/server';
 import type { ActionResponse } from './types';
 
@@ -105,10 +106,29 @@ export async function getJob(id: string): Promise<ActionResponse<Job>> {
   }
 }
 
-export async function getJobs(): Promise<ActionResponse<Job[]>> {
+export async function getJobs(params: {
+  location?: string;
+  type?: string;
+}): Promise<ActionResponse<Job[]>> {
   try {
     const supabase = await createClient();
-    const queryResponse = await supabase.from(JOB_TABLE).select(JOB_COLUMNS);
+
+    let query = supabase.from(JOB_TABLE).select(JOB_COLUMNS);
+
+    const location = params.location?.trim();
+    const type = params.type?.trim();
+
+    if (location && location.length > 0) {
+      query = query.ilike('location', `%${location}%`);
+    }
+    if (type && type.length > 0) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (JobTypeEnum.options.includes(type as any)) {
+        query = query.eq('type', type);
+      }
+    }
+
+    const queryResponse = await query;
 
     if (queryResponse.error) return { success: false, error: queryResponse.error.message };
 
