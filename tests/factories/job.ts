@@ -6,10 +6,10 @@ const JOB_COLUMNS = 'id, title, company_name, description, location, type, creat
 
 export function buildJob(overrides?: Partial<JobInput>): JobInput {
   return {
-    title: faker.name.jobTitle(),
-    company_name: faker.company.name(),
-    description: faker.lorem.paragraph(),
-    location: faker.address.city(),
+    title: `test-${faker.name.jobTitle()}`,
+    company_name: `test-${faker.company.name()}`,
+    description: `test-${faker.lorem.paragraph()}`,
+    location: `test-${faker.address.city()}`,
     type: faker.helpers.arrayElement(JobTypeEnum.options),
     ...overrides,
   };
