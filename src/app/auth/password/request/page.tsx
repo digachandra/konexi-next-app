@@ -6,8 +6,8 @@ import { PasswordRequestInputSchema, PasswordRequestInput } from '@/schemas/pass
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Mail } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { Panel } from '@/components/inputs/panel';
 import { TextInput } from '@/components/inputs/text';
+import { Panel } from '@/components/panel';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { PasswordSuccessFeedback, PasswordErrorFeedback } from '../_components/password-feedback';

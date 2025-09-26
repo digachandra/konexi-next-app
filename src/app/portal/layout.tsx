@@ -7,11 +7,10 @@ import { createClient } from '@/lib/supabase/server';
 import { AppShell } from './_components/app-shell';
 
 type LayoutProps = {
-  header: ReactNode;
   children: ReactNode;
 };
 
-export default async function Layout({ header, children }: LayoutProps) {
+export default async function Layout({ children }: LayoutProps) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -29,7 +28,6 @@ export default async function Layout({ header, children }: LayoutProps) {
           },
         }}
       >
-        {header}
         {children}
       </AppShell>
     </SidebarProvider>

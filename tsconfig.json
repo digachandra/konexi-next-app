@@ -20,6 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+      "@portal/*": ["./src/app/portal/_components/*"],
       "@tests/*": ["./tests/*"]
     }
   },
