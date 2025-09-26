@@ -20,12 +20,6 @@ function HeaderActionContent({ icon: Icon, label }: HeaderActionContentProps) {
   );
 }
 
-type HeaderActionProps = {
-  label?: string;
-  href?: string;
-  onClick?: () => void;
-};
-
 type HeaderActionLinkProps = HeaderActionContentProps & {
   href: string;
 };

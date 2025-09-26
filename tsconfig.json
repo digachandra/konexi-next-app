@@ -21,7 +21,6 @@
     "paths": {
       "@/*": ["./src/*"],
       "@portal/*": ["./src/app/portal/_components/*"],
-      "@portal-header/*": ["./src/app/portal/@header/_components/*"],
       "@tests/*": ["./tests/*"]
     }
   },

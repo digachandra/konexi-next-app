@@ -1,9 +1,0 @@
-import { HeaderTitle } from '@portal-header/title';
-
-export default function Page() {
-  return (
-    <>
-      <HeaderTitle text="Edit Job" withBack />
-    </>
-  );
-}

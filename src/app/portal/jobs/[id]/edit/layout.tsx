@@ -2,6 +2,8 @@ import { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { getJob } from '@/actions/job';
 import { JobProvider } from '@/contexts/job';
+import { Header } from '@portal/header';
+import { HeaderTitle } from '@portal/header/title';
 
 type LayoutProps = {
   children: ReactNode;
@@ -16,5 +18,12 @@ export default async function Layout({ children, params }: LayoutProps) {
     notFound();
   }
 
-  return <JobProvider value={data}>{children}</JobProvider>;
+  return (
+    <>
+      <Header>
+        <HeaderTitle text="Edit Job" withBack />
+      </Header>
+      <JobProvider value={data}>{children}</JobProvider>
+    </>
+  );
 }

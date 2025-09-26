@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 import { Separator } from '@/components/ui/separator';
 
-type LayoutProps = {
+type HeaderProps = {
   children: ReactNode;
 };
 
-export default function Layout({ children }: LayoutProps) {
+export function Header({ children }: HeaderProps) {
   return (
     <div className="space-y-4">
       <div className="flex justify-between gap-4">{children}</div>
