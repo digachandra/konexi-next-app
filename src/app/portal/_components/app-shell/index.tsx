@@ -2,17 +2,16 @@ import { ReactNode } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Footer } from './footer';
 import { Header } from './header';
-import { Sidebar, type SidebarProps } from './sidebar';
+import { Sidebar } from './sidebar';
 
 type AppShellProps = {
-  sidebar: SidebarProps;
   children: ReactNode;
 };
 
-export function AppShell({ sidebar, children }: AppShellProps) {
+export function AppShell({ children }: AppShellProps) {
   return (
     <SidebarProvider>
-      <Sidebar {...sidebar} />
+      <Sidebar />
       <div className="flex min-h-full flex-1 flex-col">
         <div className="flex flex-1 flex-col gap-4">
           <Header className="md:hidden" />

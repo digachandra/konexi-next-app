@@ -1,12 +1,15 @@
 import { ReactNode } from 'react';
 import { Header } from '@portal/header';
 import { HeaderTitle } from '@portal/header/title';
+import { requireAuth } from '@/lib/auth';
 
 type LayoutProps = {
   children: ReactNode;
 };
 
-export default function Layout({ children }: LayoutProps) {
+export default async function Layout({ children }: LayoutProps) {
+  await requireAuth();
+
   return (
     <>
       <Header>

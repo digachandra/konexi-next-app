@@ -9,9 +9,9 @@ import {
   SidebarMenu,
   SidebarSeparator,
 } from '@/components/ui/sidebar';
+import { Account } from './account';
 import { SidebarScrolls } from './scrolls';
 import { SidebarContent } from './sidebar-content';
-import { SidebarFooter, SidebarFooterProps } from './sidebar-footer';
 
 type SidebarSectionProps = {
   as: 'content' | 'actions';
@@ -40,11 +40,7 @@ export function SidebarSection({
   );
 }
 
-export type SidebarProps = {
-  footer: SidebarFooterProps;
-};
-
-export function Sidebar({ footer }: SidebarProps) {
+export function Sidebar() {
   return (
     <RootSidebar variant="inset" className="py-6 [&_[data-slot=sidebar-separator]]:mx-0">
       <SidebarHeader className="hidden items-start px-3 md:block">
@@ -54,7 +50,7 @@ export function Sidebar({ footer }: SidebarProps) {
         <SidebarContent />
       </RootSidebarContent>
       <RootSidebarFooter className="px-0">
-        <SidebarFooter {...footer} />
+        <Account />
         <SidebarSection as="content" className="hidden md:block">
           <SidebarSeparator />
         </SidebarSection>

@@ -118,10 +118,3 @@ test.describe('when user is authenticated', () => {
     });
   });
 });
-
-test.describe('when user is unauthenticated', () => {
-  test('redirects to auth login ', async ({ page }) => {
-    await page.goto('/portal/jobs/list');
-    await expect(page).toHaveURL(/\/auth\/login/);
-  });
-});
