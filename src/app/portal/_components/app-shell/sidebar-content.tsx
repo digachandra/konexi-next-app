@@ -7,7 +7,7 @@ export function SidebarContent() {
   return (
     <>
       <SidebarSection as="actions">
-        <SidebarAction href={routes.portal.jobs.index()} label="Jobs" icon={Briefcase} />
+        <SidebarAction href={routes.portal.jobs.list()} label="Jobs" icon={Briefcase} />
       </SidebarSection>
     </>
   );

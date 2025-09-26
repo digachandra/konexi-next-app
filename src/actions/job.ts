@@ -89,3 +89,21 @@ export async function getJob(id: string): Promise<ActionResponse<Job>> {
     return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
   }
 }
+
+export async function getJobs(): Promise<ActionResponse<Job[]>> {
+  try {
+    const supabase = await createClient();
+    const queryResponse = await supabase.from(JOB_TABLE).select(JOB_COLUMNS);
+
+    if (queryResponse.error) return { success: false, error: queryResponse.error.message };
+
+    const responsePayload = JobSchema.array().safeParse(queryResponse.data);
+    if (!responsePayload.success) {
+      return INVALID_RESPONSE_PAYLOAD_ERROR;
+    }
+
+    return { success: true, data: queryResponse.data };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
+  }
+}

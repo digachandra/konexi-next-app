@@ -17,7 +17,7 @@ export const routes = {
   portal: {
     root: () => '/portal' as const,
     jobs: {
-      index: () => '/portal/jobs' as const,
+      list: () => '/portal/jobs/list' as const,
       add: () => '/portal/jobs/add' as const,
       detail: ((id: string) => `/portal/jobs/${id}/detail`) as DynamicRoute<string>,
       edit: ((id: string) => `/portal/jobs/${id}/edit`) as DynamicRoute<string>,

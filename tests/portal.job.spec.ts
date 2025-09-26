@@ -30,8 +30,10 @@ test.describe('when user is authenticated', () => {
     await test.step('navigate to jobs page', async () => {
       await page.getByRole('link', { name: 'Jobs' }).click();
 
-      await expect(page).toHaveURL(/\/portal\/jobs/);
+      await expect(page).toHaveURL(/\/portal\/jobs\/list/);
       await expect(page.getByRole('heading', { name: 'Jobs Board' })).toBeVisible();
+
+      await expect(page.getByText('No jobs available')).toBeVisible();
     });
 
     await test.step('create job record', async () => {
@@ -92,7 +94,7 @@ test.describe('when user is authenticated', () => {
 
 test.describe('when user is unauthenticated', () => {
   test('redirects to auth login ', async ({ page }) => {
-    await page.goto('/portal/jobs');
+    await page.goto('/portal/jobs/list');
     await expect(page).toHaveURL(/\/auth\/login/);
   });
 });
