@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { ActionResponse } from '@/actions/types';
 import { Pencil, Plus, Trash2, type LucideIcon } from 'lucide-react';
+import { useDeleteDialog } from '@/components/delete-dialog';
 import { Button } from '@/components/ui/button';
 
 type HeaderActionContentProps = {
@@ -53,26 +54,26 @@ type HeaderActionButtonProps = HeaderActionContentProps & {
 
 export function HeaderActionDelete(props: HeaderActionButtonProps) {
   const { label, handleDelete, redirectTo } = props;
+  const { open } = useDeleteDialog();
   const router = useRouter();
 
   return (
     <Button
       type="button"
-      onClick={async () => {
-        const confirmed = window.confirm(
-          'Are you sure you want to delete this record? This action cannot be undone.'
-        );
-        if (!confirmed) return;
+      onClick={() =>
+        open({
+          target: null,
+          onConfirm: async () => {
+            const { error } = await handleDelete();
+            if (error) throw new Error(error);
 
-        const { error } = await handleDelete();
-        if (error) {
-          alert(error);
-          return;
-        }
-
-        router.push(redirectTo);
-        router.refresh();
-      }}
+            router.push(redirectTo);
+            router.refresh();
+          },
+          title: `Delete this record?`,
+          description: 'This action cannot be undone. It will permanently delete this record.',
+        })
+      }
       size="sm"
       variant="destructive"
     >

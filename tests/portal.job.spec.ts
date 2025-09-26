@@ -89,6 +89,16 @@ test.describe('when user is authenticated', () => {
       await expect(page.getByText(edited.location)).toBeVisible();
       await expect(page.getByText(edited.type)).toBeVisible();
     });
+
+    await test.step('delete job record', async () => {
+      await page.getByRole('button', { name: 'Delete Job' }).click();
+
+      await expect(page.getByText('Delete this record?')).toBeVisible();
+      await page.getByRole('button', { name: 'Yes, delete' }).click();
+
+      await expect(page).toHaveURL(/\/portal\/jobs\/list/);
+      await expect(page.getByText('No jobs available')).toBeVisible();
+    });
   });
 });
 

@@ -72,6 +72,21 @@ export async function updateJob(id: string, formData: FormData): Promise<ActionR
   }
 }
 
+export async function deleteJob(id: string): Promise<ActionResponse<null>> {
+  try {
+    const supabase = await createClient();
+    const queryResponse = await supabase.from(JOB_TABLE).delete().eq('id', id);
+
+    if (queryResponse.error) {
+      return { success: false, error: queryResponse.error.message };
+    }
+
+    return { success: true, data: null };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
+  }
+}
+
 export async function getJob(id: string): Promise<ActionResponse<Job>> {
   try {
     const supabase = await createClient();
