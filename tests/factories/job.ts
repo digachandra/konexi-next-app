@@ -4,7 +4,12 @@ import { supabase } from '@tests/lib/supabase/client';
 
 const JOB_COLUMNS = 'id, title, company_name, description, location, type, created_at, updated_at';
 
-export function buildJob(overrides?: Partial<JobInput>): JobInput {
+type JobFactoryInput = JobInput & {
+  created_by?: string;
+  created_by_email?: string;
+};
+
+export function buildJob(overrides?: Partial<JobFactoryInput>): JobFactoryInput {
   return {
     title: `test-${faker.name.jobTitle()}`,
     company_name: `test-${faker.company.name()}`,
@@ -15,7 +20,7 @@ export function buildJob(overrides?: Partial<JobInput>): JobInput {
   };
 }
 
-export async function createJob(input: Partial<JobInput> = {}): Promise<Job> {
+export async function createJob(input: Partial<JobFactoryInput> = {}): Promise<Job> {
   const builtInput = buildJob(input);
   const { data, error } = await supabase.from('jobs').insert(builtInput).select().single();
 

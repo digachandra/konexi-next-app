@@ -27,6 +27,7 @@ export default async function Page({ params }: PageProps) {
       <Panel title="Audit">
         <Row label="ID" value={data.id} />
         <Row label="Created At" value={data.created_at} />
+        <Row label="Created By" value={data.created_by_email} />
         <Row label="Updated At" value={data.updated_at} />
       </Panel>
     </>

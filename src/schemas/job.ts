@@ -21,6 +21,8 @@ export const JobSchema = z.object({
   location: z.string(),
   type: JobTypeEnum,
   created_at: z.string(),
+  created_by: z.string(),
+  created_by_email: z.string(),
   updated_at: z.string().nullable(),
 });
 
