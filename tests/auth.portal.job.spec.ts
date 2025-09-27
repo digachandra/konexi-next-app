@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { test, expect } from '@playwright/test';
+import { createJob, deleteJob } from './factories/job';
 import { createUser, deleteUser } from './factories/user';
 import { loginWithEmailPassword } from './lib/auth';
 
@@ -57,6 +58,7 @@ test.describe('when user is authenticated', () => {
       await expect(page.getByText(job.description)).toBeVisible();
       await expect(page.getByText(job.location)).toBeVisible();
       await expect(page.getByText(job.type)).toBeVisible();
+      await expect(page.getByText(email)).toBeVisible();
     });
 
     const edited = {
@@ -88,6 +90,7 @@ test.describe('when user is authenticated', () => {
       await expect(page.getByText(edited.description)).toBeVisible();
       await expect(page.getByText(edited.location)).toBeVisible();
       await expect(page.getByText(edited.type)).toBeVisible();
+      await expect(page.getByText(email)).toBeVisible();
     });
 
     await test.step('navigate to job detail from jobs board', async () => {
@@ -115,6 +118,60 @@ test.describe('when user is authenticated', () => {
 
       await expect(page).toHaveURL(/\/portal\/jobs\/list/);
       await expect(page.getByText('No jobs available')).toBeVisible();
+    });
+  });
+});
+
+test.describe('when job created not by the user', () => {
+  const job_user_email = faker.internet.email();
+  const active_user_email = faker.internet.email();
+  const password = 'password';
+  let job_user: Awaited<ReturnType<typeof createUser>>;
+  let active_user: Awaited<ReturnType<typeof createUser>>;
+  let job: Awaited<ReturnType<typeof createJob>>;
+
+  test.beforeAll(async () => {
+    job_user = await createUser({ email: job_user_email, password });
+    active_user = await createUser({ email: active_user_email, password });
+    job = await createJob({
+      location: `test-${faker.location.city()}`,
+      type: 'Full-Time',
+      created_by: job_user.id,
+      created_by_email: job_user.email,
+    });
+  });
+
+  test.afterAll(async () => {
+    await deleteJob(job.id);
+    await deleteUser({ email: job_user_email });
+    await deleteUser({ email: active_user_email });
+  });
+
+  test('does not allow update & delete', async ({ page }) => {
+    await loginWithEmailPassword(page, { email: active_user_email, password });
+
+    await test.step('navigate to job detail page', async () => {
+      await page.goto('/portal/jobs/list');
+
+      await page
+        .locator('[data-slot="card"]')
+        .filter({ hasText: job.title })
+        .getByRole('button', { name: 'See Job Detail' })
+        .click();
+
+      await expect(page).toHaveURL(`/portal/jobs/${job.id}/detail`);
+    });
+
+    await expect(page.getByRole('button', { name: 'Edit Job' })).not.toBeVisible();
+    await expect(page.getByRole('button', { name: 'Delete Job' })).not.toBeVisible();
+
+    await test.step('navigate to job edit page', async () => {
+      await page.goto(`/portal/jobs/${job.id}/edit`);
+
+      await expect(page.getByRole('heading', { name: '404' })).toBeVisible();
+      await expect(
+        page.getByRole('heading', { name: 'This page could not be found.' })
+      ).toBeVisible();
     });
   });
 });

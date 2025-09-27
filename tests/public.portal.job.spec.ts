@@ -1,19 +1,36 @@
 import { faker } from '@faker-js/faker';
 import { test, expect } from '@playwright/test';
 import { createJob, deleteJob } from './factories/job';
+import { createUser, deleteUser } from './factories/user';
 
 test.describe('public jobs access (read-only)', () => {
+  const job_user_email = faker.internet.email();
+  let job_user: Awaited<ReturnType<typeof createUser>>;
   let job_1: Awaited<ReturnType<typeof createJob>>;
   let job_2: Awaited<ReturnType<typeof createJob>>;
 
   test.beforeAll(async () => {
-    job_1 = await createJob({ location: `test-${faker.location.city()}`, type: 'Full-Time' });
-    job_2 = await createJob({ location: `test-${faker.location.city()}`, type: 'Contract' });
+    job_user = await createUser({ email: job_user_email, password: 'password' });
+    const created_by = {
+      created_by: job_user.id,
+      created_by_email: job_user.email,
+    };
+    job_1 = await createJob({
+      location: `test-${faker.location.city()}`,
+      type: 'Full-Time',
+      ...created_by,
+    });
+    job_2 = await createJob({
+      location: `test-${faker.location.city()}`,
+      type: 'Contract',
+      ...created_by,
+    });
   });
 
   test.afterAll(async () => {
     await deleteJob(job_1.id);
     await deleteJob(job_2.id);
+    await deleteUser({ email: job_user_email });
   });
 
   test('allow valid read', async ({ page }) => {
@@ -72,6 +89,7 @@ test.describe('public jobs access (read-only)', () => {
       await expect(page.getByText(job_1.description)).toBeVisible();
       await expect(page.getByText(job_1.location)).toBeVisible();
       await expect(page.getByText(job_1.type)).toBeVisible();
+      await expect(page.getByText(job_user_email)).toBeVisible();
 
       await expect(page.getByRole('button', { name: 'Edit Job' })).not.toBeVisible();
       await expect(page.getByRole('button', { name: 'Delete Job' })).not.toBeVisible();

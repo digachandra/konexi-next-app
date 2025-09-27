@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { getJob } from '@/actions/job';
 import { routes } from '@/routes';
 import { Header } from '@portal/header';
 import { HeaderActions, HeaderActionEdit } from '@portal/header/actions';
@@ -14,12 +15,15 @@ type LayoutProps = {
 export default async function Layout({ children, params }: LayoutProps) {
   const { id } = await params;
   const user = await getSignedUser();
+  const { success, data } = await getJob(id);
+
+  const allowActions = user && success && data && data.created_by === user.id;
 
   return (
     <>
       <Header>
         <HeaderTitle text="Job Detail" withBack />
-        {user && (
+        {allowActions && (
           <HeaderActions>
             <HeaderActionEdit label="Edit Job" href={routes.portal.jobs.edit(id)} />
             <HeaderActionDelete recordId={id} />
