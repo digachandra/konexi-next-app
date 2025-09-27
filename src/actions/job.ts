@@ -3,10 +3,12 @@
 import { JobInputSchema, JobSchema, type Job } from '@/schemas/job';
 import { JobTypeEnum } from '@/schemas/job';
 import { createClient } from '@/lib/supabase/server';
+import { getSignedUser } from '@/lib/user';
 import type { ActionResponse } from './types';
 
 const JOB_TABLE = 'jobs';
-const JOB_COLUMNS = 'id, title, company_name, description, location, type, created_at, updated_at';
+const JOB_COLUMNS =
+  'id, title, company_name, description, location, type, created_at, created_by, created_by_email, updated_at';
 const INVALID_REQUEST_PAYLOAD_ERROR: ActionResponse<never> = {
   success: false,
   error: 'Invalid request payload format',
@@ -25,9 +27,17 @@ export async function createJob(formData: FormData): Promise<ActionResponse<Job>
     }
 
     const supabase = await createClient();
+    const user = await getSignedUser();
+
+    const queryPayload = {
+      ...requestPayload.data,
+      created_by: user?.id,
+      created_by_email: user?.email,
+    };
+
     const queryResponse = await supabase
       .from(JOB_TABLE)
-      .insert(requestPayload.data)
+      .insert(queryPayload)
       .select(JOB_COLUMNS)
       .single();
 
